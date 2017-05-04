@@ -37,12 +37,15 @@ module Administrate
       end
     end
 
-    def sanitized_order_params
-      params.permit(:search, :id, :order, :page, :per_page, :direction, :orders)
+    def sanitized_order_params(attr_name)
+      params.permit(:search, :id, :page, :per_page, {
+                      attr_name => [:order, :direction, :page, :per_page]
+                    })
     end
 
+
     def clear_search_params
-      params.except(:search, :page).permit(:order, :direction, :per_page)
+      params.except(:search, :page).permit(:per_page, { resource_name => [:order, :direction] })
     end
   end
 end
